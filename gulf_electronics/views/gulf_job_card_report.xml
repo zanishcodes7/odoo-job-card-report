@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- 1. Report Action -->
+    <record id="action_report_gulf_job_card" model="ir.actions.report">
+        <field name="name">Job Card Report</field>
+        <field name="model">gulf.job.card</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gulf_electronics.report_gulf_job_card</field>
+        <field name="report_file">gulf_electronics.report_gulf_job_card</field>
+        <field name="print_report_name">'Job Card - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_gulf_job_card"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- 2. QWeb PDF Template -->
+    <template id="report_gulf_job_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <main class="page">
+                    <style>
+                        @page {
+                            size: A4 portrait;
+                            margin: 6mm;
+                        }
+                        .page {
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-size: 12px;
+                            color: #000000;
+                            background-color: #ffffff;
+                            line-height: 1.4;
+                        }
+
+                        /* MAIN OUTER CARD BORDER */
+                        .outer-card {
+                            border: 2px solid #000000 !important;
+                            padding: 14px;
+                            margin-bottom: 12px;
+                            box-sizing: border-box;
+                            background: #ffffff;
+                        }
+
+                        /* CLEAN TABLES WITH NO INTERNAL BORDERS BY DEFAULT */
+                        table.clean-table {
+                            width: 100%;
+                            border-collapse: collapse !important;
+                        }
+                        table.clean-table td {
+                            padding: 6px 3px !important;
+                            vertical-align: middle;
+                            border: none !important;
+                            font-size: 12px;
+                        }
+
+                        .text-center { text-align: center; }
+                        .text-right { text-align: right; }
+                        .font-bold { font-weight: bold; }
+
+                        /* INPUT LINES MATCHING FULL SPACING */
+                        .line-input {
+                            border-bottom: 1px solid #000000 !important;
+                            width: 100%;
+                            min-height: 22px;
+                            display: block;
+                            padding-left: 5px;
+                            font-size: 12px;
+                        }
+
+                        /* BRAND BADGES */
+                        .brand-pill {
+                            display: inline-block;
+                            color: #ffffff;
+                            background-color: #000000 !important;
+                            font-weight: bold;
+                            text-align: center;
+                            border-radius: 4px;
+                            padding: 5px 0;
+                            font-size: 10.5px;
+                        }
+
+                        /* PARTS GRID TABLE - MATCHES IMAGE 2 LAYOUT */
+                        table.parts-grid {
+                            width: 100%;
+                            border-collapse: collapse !important;
+                            border: 1.5px solid #000000 !important;
+                            margin-top: 6px;
+                        }
+                        table.parts-grid th {
+                            border: 1px solid #000000 !important;
+                            padding: 6px !important;
+                            font-size: 11.5px;
+                            font-weight: bold;
+                            text-align: center;
+                        }
+                        table.parts-grid td {
+                            border: 1px solid #000000 !important;
+                            padding: 6px 8px !important;
+                            font-size: 11.5px;
+                        }
+
+                        .banner-title {
+                            background-color: #000000 !important;
+                            color: #ffffff !important;
+                            font-weight: bold;
+                            text-align: center;
+                            padding: 6px;
+                            font-size: 11px;
+                            margin: 10px 0 6px 0;
+                            letter-spacing: 0.5px;
+                        }
+                    </style>
+
+                    <!-- ================= TOP BOX: MAIN JOB CARD ================= -->
+                    <div class="outer-card">
+
+                        <!-- Header Section -->
+                        <table class="clean-table">
+                            <tr>
+                                <!-- Left Brands -->
+                                <td style="width: 25%; vertical-align: top;">
+                                    <div style="width: 135px;">
+                                        <div class="brand-pill" style="width: 100%; margin-bottom: 4px;">
+                                            SAMSUNG
+                                        </div>
+                                        <div style="width: 100%;">
+                                            <div class="brand-pill" style="width: 48%; float: left;">TCL</div>
+                                            <div class="brand-pill" style="width: 48%; float: right;">ORIENT</div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Center Title -->
+                                <td class="text-center" style="width: 50%; vertical-align: top;">
+                                    <div style="font-size: 24px; font-weight: bold; letter-spacing: 0.5px;">GULF Electronics</div>
+                                    <div style="font-size: 10.5px; font-weight: bold; margin-top: 3px;">AUTHORISED CUSTOMER SERVICE CENTRE</div>
+                                    <div style="font-size: 10px; margin-top: 5px;">
+                                        Ph: <t t-esc="o.env.company.phone or ''"/>
+                                        <span style="margin: 0 15px;"/>
+                                        E-mail: <t t-esc="o.env.company.email or ''"/>
+                                    </div>
+                                </td>
+
+                                <!-- Right Details -->
+                                <td class="text-right" style="width: 25%; font-size: 10px; line-height: 1.35; vertical-align: top;">
+                                    <div class="font-bold" style="font-size: 11px;">SONY • LG</div>
+                                    <div>We also Deal in All Kind of</div>
+                                    <div>Electronics, Home</div>
+                                    <div>Appliances,</div>
+                                    <div>Micro Wave Oven,</div>
+                                    <div>Home Theater LCD, LED,</div>
+                                    <div>Plasma</div>
+                                    <div class="font-bold" style="margin-top: 4px;">NTN# <t t-esc="o.env.company.vat or ''"/></div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Timing Line -->
+                        <div style="font-size: 11px; margin: 12px 0 16px 0;">
+                            <span class="font-bold">Timing 11 am to 7 pm</span>
+                            <span style="margin-left: 35px;"/>
+                            <span class="font-bold">Sunday Closed</span>
+                        </div>
+
+                        <!-- Form Main Split -->
+                        <table class="clean-table">
+                            <tr>
+                                <!-- Left Column Form -->
+                                <td style="width: 46%; padding-right: 15px !important; vertical-align: top;">
+                                    <table class="clean-table">
+                                        <tr>
+                                            <td class="font-bold" style="width: 85px;">Model No.</td>
+                                            <td><span class="line-input"><t t-esc="o.model_no or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Complain</td>
+                                            <td><span class="line-input"><t t-esc="o.complain or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="height: 35px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Ph #.</td>
+                                            <td><span class="line-input"><t t-esc="o.partner_id.phone or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Condition</td>
+                                            <td><span class="line-input"><t t-esc="o.condition or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Accessories</td>
+                                            <td><span class="line-input"><t t-esc="o.accessories or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold" style="vertical-align: top; padding-top: 8px !important;">Address</td>
+                                            <td style="font-size: 10.5px; line-height: 1.35; vertical-align: top; padding-top: 8px !important;">
+                                                <t t-esc="o.partner_id.contact_address or ''"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- Right Column Form + Expanded Parts Table -->
+                                <td style="width: 54%; vertical-align: top;">
+                                    <table class="clean-table">
+                                        <tr>
+                                            <td class="font-bold" style="width: 75px;">Job No.</td>
+                                            <td><span class="line-input font-bold"><t t-esc="o.name or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Serial No.</td>
+                                            <td><span class="line-input"><t t-esc="o.serial_no or ''"/></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Date</td>
+                                            <td><span class="line-input"><t t-esc="o.date_order or ''"/></span></td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Parts Table Grid -->
+                                    <table class="parts-grid">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 52%;">Part Description</th>
+                                                <th style="width: 14%;">Qty.</th>
+                                                <th style="width: 17%;">Unit Price</th>
+                                                <th style="width: 17%;">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Output populated lines -->
+                                            <t t-foreach="o.line_ids" t-as="line">
+                                                <tr style="height: 30px;">
+                                                    <td style="vertical-align: top;"><t t-esc="line.description or line.product_id.name or ''"/></td>
+                                                    <td class="text-center" style="vertical-align: top;"><t t-esc="line.product_qty"/></td>
+                                                    <td class="text-right" style="vertical-align: top;"><t t-esc="'%.2f' % line.unit_price"/></td>
+                                                    <td class="text-right" style="vertical-align: top;"><t t-esc="'%.2f' % line.price_subtotal"/></td>
+                                                </tr>
+                                            </t>
+
+                                            <!-- Tall Empty Space for writing/reading -->
+                                            <t t-if="not o.line_ids">
+                                                <tr style="height: 110px;">
+                                                    <td></td><td></td><td></td><td></td>
+                                                </tr>
+                                            </t>
+
+                                            <!-- Summary Rows -->
+                                            <tr>
+                                                <td colspan="3" class="font-bold">Home Visit</td>
+                                                <td class="text-right"><t t-esc="'%.2f' % (o.home_visit_charge or 0.0)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="font-bold">Services Charges</td>
+                                                <td class="text-right"><t t-esc="'%.2f' % (o.service_charge or 0.0)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="font-bold">Total</td>
+                                                <td class="text-right font-bold"><t t-esc="'%.2f' % (o.total_charges or 0.0)"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Signatures -->
+                        <table class="clean-table" style="margin-top: 35px;">
+                            <tr>
+                                <td style="width: 50%;">
+                                    Received by <span style="border-bottom: 1px solid #000000; display: inline-block; width: 190px; padding-left: 5px; font-weight: bold;"><t t-esc="o.received_by or ''"/></span>
+                                </td>
+                                <td style="width: 50%; text-align: left; padding-left: 20px !important;">
+                                    Customer's Sign ____________________________________
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+
+                    <!-- ================= BOTTOM BOX: TERMS & CONDITIONS ================= -->
+                    <div class="outer-card">
+
+                        <div style="font-size: 12px; margin-bottom: 6px;" class="font-bold">
+                            If slip missing then must be required I.D Card Copy Owner of Appliances.
+                        </div>
+
+                        <div class="banner-title">
+                            PLEASE FIRST READ THE TERMS &amp; CONDITIONS THEN SIGN JOB
+                        </div>
+
+                        <ul style="margin: 6px 0 8px 0; padding-left: 20px; font-size: 10px; line-height: 1.5;">
+                            <li>This copy must be produced while taking delivery.</li>
+                            <li>The company reserves the right to refuse delivery if this document is lost.</li>
+                            <li>The equipment should be collected within one week of intimation.</li>
+                            <li>If not collected within one week, the company will charge a fee of Rs. 50/- per day for LCD/LED.</li>
+                            <li>Not collected within 2 months of the above said intimation, the company reserve the right to auction the same recover the repair and storage charges.</li>
+                            <li>Payment should be made in Cash only. Rejection Charges LED Rs.500/-</li>
+                        </ul>
+
+                        <div class="banner-title">
+                            PANEL REPAIR TERMS &amp; CONDITIONS
+                        </div>
+
+                        <div style="font-size: 10px; line-height: 1.4; margin-top: 6px;">
+                            During panel repair damage &amp; increasing the lines any mishap company are not responsible.<br/>
+                            Customer should be signed dead approval the Services Centre work on the job.
+                        </div>
+
+                    </div>
+
+                </main>
+            </t>
+        </t>
+    </template>
+
+</odoo>

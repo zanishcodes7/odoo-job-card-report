@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sequence Generator for Job Cards -->
+    <record id="seq_gulf_job_card" model="ir.sequence">
+        <field name="name">Gulf Job Card Sequence</field>
+        <field name="code">gulf.job.card</field>
+        <field name="prefix">JOB/</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_gulf_job_card_tree" model="ir.ui.view">
+        <field name="name">gulf.job.card.tree</field>
+        <field name="model">gulf.job.card</field>
+        <field name="arch" type="xml">
+            <list string="Gulf Electronics Job Cards">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="model_no"/>
+                <field name="serial_no"/>
+                <field name="received_by"/>
+                <field name="date_order"/>
+                <field name="total_charges"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_gulf_job_card_form" model="ir.ui.view">
+        <field name="name">gulf.job.card.form</field>
+        <field name="model">gulf.job.card</field>
+        <field name="arch" type="xml">
+            <form string="Gulf Electronics Job Card">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="model_no"/>
+                            <field name="complain"/>
+                            <field name="condition"/>
+                            <field name="accessories"/>
+                        </group>
+                        <group>
+                            <field name="date_order"/>
+                            <field name="serial_no"/>
+                            <field name="received_by"/>  <!-- Added Here -->
+                        </group>
+                    </group>
+
+                    <!-- Job Lines Tab -->
+                    <notebook>
+                        <page string="Job Lines" name="job_lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="product_qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="tax_id" widget="many2many_tags"/>
+                                    <field name="price_subtotal"/>
+                                </list>
+                            </field>
+
+                            <!-- Subtotal Footer -->
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="home_visit_charge"/>
+                                <field name="service_charge"/>
+                                <field name="untaxed_amount" widget="monetary"/>
+                                <field name="tax_amount" widget="monetary"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_charges"/>
+                                </div>
+                                <field name="total_charges" widget="monetary" class="oe_subtotal_footer_separator" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_gulf_job_card" model="ir.actions.act_window">
+        <field name="name">Gulf Electronics</field>
+        <field name="res_model">gulf.job.card</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- MENU ITEM -->
+    <menuitem id="menu_gulf_job_card_accounting"
+              name="Gulf Electronics"
+              parent="account.menu_finance_receivables"
+              action="action_gulf_job_card"
+              sequence="2"/>
+
+</odoo>
